@@ -22,8 +22,9 @@ function load() {
   }
 
   let textureLoader = new THREE.TextureLoader();
-  texture = textureLoader.load("texture/seed.png", function (data) {
+  texture = textureLoader.load("texture/noise.png", function (data) {
     texture = data;
+    texture.minFilter = THREE.LinearFilter;
     texture.magFilter = THREE.NearestFilter;
     checkLoadComplete();
   });
@@ -59,6 +60,10 @@ function init() {
     u_texture: {
       type: "t",
       value: texture,
+    },
+    u_resolution: {
+      type: "v2",
+      value: new THREE.Vector2(window.innerWidth, window.innerHeight),
     },
   };
 
