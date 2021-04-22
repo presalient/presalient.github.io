@@ -4,8 +4,8 @@
 // Constants & variables
 const textureFraction = 1 * window.devicePixelRatio;
 
-let texture, scene, camera;
-let fragShader, vertShader;
+let texture, scene, camera, renderer;
+let fragmentShader, vertexShader;
 
 load(); // Will call init() when shaders loaded
 animate();
@@ -28,12 +28,12 @@ function load() {
   });
 
   let fileLoader = new THREE.FileLoader();
-  fileLoader.load("shader/frag.shader", function (data) {
-    fragShader = data;
+  fileLoader.load("shader/frag.frag", function (data) {
+    fragmentShader = data;
     checkLoadComplete();
   });
-  fileLoader.load("shader/vert.shader", function (data) {
-    vertShader = data;
+  fileLoader.load("shader/vert.vert", function (data) {
+    vertexShader = data;
     checkLoadComplete();
   });
 }
@@ -54,10 +54,18 @@ function init() {
     window.innerHeight * textureFraction
   );
 
-  let material = new THREE.MeshBasicMaterial({
-    map: texture,
-    opacity: 0.8,
-    transparent: true,
+  let uniforms = {
+    texture: {
+      type: "t",
+      value: 0,
+      texture: texture,
+    },
+  };
+
+  let material = new THREE.ShaderMaterial({
+    uniforms: uniforms,
+    vertexShader: vertexShader,
+    fragmentShader: fragmentShader,
   });
 
   let mesh = new THREE.Mesh(geometry, material);
