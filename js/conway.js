@@ -24,6 +24,7 @@ function load() {
   let textureLoader = new THREE.TextureLoader();
   texture = textureLoader.load("texture/seed.png", function (data) {
     texture = data;
+    texture.magFilter = THREE.NearestFilter;
     checkLoadComplete();
   });
 
