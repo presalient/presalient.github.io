@@ -5,24 +5,39 @@
 const textureFraction = 1 * window.devicePixelRatio;
 
 let texture, scene, camera;
+let fragShader, vertShader;
 
-// Loading
-// const loader = new THREE.TextureLoader();
-// loader.setCrossOrigin("anonymous");
-// loader.load("texture/seed.png", function (t) {
-//   texture = t;
-//   texture.wrapS = THREE.RepeatWrapping;
-//   texture.wrapT = THREE.RepeatWrapping;
-//   texture.minFilter = THREE.LinearFilter;
-// });
-
-var loader = new THREE.TextureLoader();
-texture = loader.load("texture/seed.png");
-
-init();
+load(); // Will call init() when shaders loaded
 animate();
 
-// Setting up
+function load() {
+  let numFilesLeft = 3;
+
+  // There's probably a better way to do this with Promises?
+  function checkLoadComplete() {
+    numFilesLeft--;
+    if (numFilesLeft === 0) {
+      init();
+    }
+  }
+
+  let textureLoader = new THREE.TextureLoader();
+  texture = textureLoader.load("texture/seed.png", function (data) {
+    texture = data;
+    checkLoadComplete();
+  });
+
+  let fileLoader = new THREE.FileLoader();
+  fileLoader.load("shader/frag.shader", function (data) {
+    fragShader = data;
+    checkLoadComplete();
+  });
+  fileLoader.load("shader/vert.shader", function (data) {
+    vertShader = data;
+    checkLoadComplete();
+  });
+}
+
 function init() {
   const container = document.getElementById("container");
 
