@@ -55,10 +55,9 @@ function init() {
   );
 
   let uniforms = {
-    texture: {
+    u_texture: {
       type: "t",
-      value: 0,
-      texture: texture,
+      value: texture,
     },
   };
 
