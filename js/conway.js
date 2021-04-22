@@ -1,38 +1,62 @@
 // Heavily adapted from
 // https://codepen.io/asdfmario/pen/MBpVJJ?editors=0010
 
-const container = document.getElementById("container");
+// Constants & variables
+const textureFraction = 1 * window.devicePixelRatio;
 
-const scene = new THREE.Scene();
-const camera = new THREE.PerspectiveCamera(
-  75,
-  window.innerWidth / window.innerHeight,
-  0.1,
-  1000
-);
+let texture, scene, camera;
 
-const geometry = new THREE.BoxGeometry();
-const material = new THREE.MeshBasicMaterial({ color: 0x00ff00 });
-cube = new THREE.Mesh(geometry, material);
-scene.add(cube);
+// Loading
+// const loader = new THREE.TextureLoader();
+// loader.setCrossOrigin("anonymous");
+// loader.load("texture/seed.png", function (t) {
+//   texture = t;
+//   texture.wrapS = THREE.RepeatWrapping;
+//   texture.wrapT = THREE.RepeatWrapping;
+//   texture.minFilter = THREE.LinearFilter;
+// });
 
-camera.position.z = 5;
+var loader = new THREE.TextureLoader();
+texture = loader.load("texture/seed.png");
 
-const renderer = new THREE.WebGLRenderer({ alpha: true });
-renderer.setSize(window.innerWidth, window.innerHeight);
+init();
+animate();
 
-// Adding style for renderer
-renderer.domElement.style.position = "absolute";
-renderer.domElement.style.zIndex = -1;
-renderer.domElement.style.background = "dimGray";
+// Setting up
+function init() {
+  const container = document.getElementById("container");
 
-container.prepend(renderer.domElement);
+  camera = new THREE.Camera();
+  camera.position.z = 1;
+
+  scene = new THREE.Scene();
+
+  let geometry = new THREE.PlaneBufferGeometry(2, 2);
+
+  // Let's render a texture
+  seedTexture = new THREE.WebGLRenderTarget(
+    window.innerWidth * textureFraction,
+    window.innerHeight * textureFraction
+  );
+
+  let material = new THREE.MeshBasicMaterial({
+    map: texture,
+    opacity: 0.8,
+    transparent: true,
+  });
+
+  let mesh = new THREE.Mesh(geometry, material);
+
+  scene.add(mesh);
+
+  renderer = new THREE.WebGLRenderer();
+  renderer.setSize(window.innerWidth, window.innerHeight);
+  renderer.setPixelRatio(window.devicePixelRatio);
+
+  container.appendChild(renderer.domElement);
+}
 
 function animate() {
   requestAnimationFrame(animate);
-  cube.rotation.x += 0.01;
-  cube.rotation.y += 0.01;
   renderer.render(scene, camera);
 }
-
-animate();
