@@ -69,7 +69,7 @@ void main() {
     gl_FragColor.z = gl_FragColor.y;
 
     vec2 centre = u_resolution / 2.;
-    float centreFactor =  (1. / ((centre.y * centre.y))) *
+    float centreFactor =  (1. / ((centre.y * centre.y * 4.0))) *
       (
         ((gl_FragCoord.x - centre.x - 0.5) * (gl_FragCoord.x - centre.x - 0.5)) +
         ((gl_FragCoord.y - centre.y - 0.5) * (gl_FragCoord.y - centre.y - 0.5)) -
