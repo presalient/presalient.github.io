@@ -107,6 +107,7 @@ function animate() {
   requestAnimationFrame(animate);
 
   // Render to target1
+  uniforms.u_renderpass.value = true;
   renderer.setRenderTarget(renderTarget1);
   renderer.render(scene, camera);
 
@@ -118,6 +119,7 @@ function animate() {
   [renderTarget1, renderTarget2] = [renderTarget2, renderTarget1];
 
   // Draw to canvas
+  uniforms.u_renderpass.value = true;
   renderer.setRenderTarget(null);
   renderer.render(scene, camera);
 }
@@ -138,4 +140,5 @@ function onResize() {
   );
 
   uniforms.u_texture.value = texture;
+  // uniforms.u_frame.value = 0;
 }
