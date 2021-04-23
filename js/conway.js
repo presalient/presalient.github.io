@@ -12,6 +12,10 @@ setTimeout(() => {
   animate();
 }, 1000);
 
+window.onresize = () => {
+  onResize();
+};
+
 function load() {
   let numFilesLeft = 3;
 
@@ -116,4 +120,22 @@ function animate() {
   // Draw to canvas
   renderer.setRenderTarget(null);
   renderer.render(scene, camera);
+}
+
+function onResize() {
+  renderer.setSize(window.innerWidth, window.innerHeight);
+  uniforms.u_resolution.value.x = renderer.domElement.width;
+  uniforms.u_resolution.value.y = renderer.domElement.height;
+
+  renderTarget1 = new THREE.WebGLRenderTarget(
+    window.innerWidth * textureFraction,
+    window.innerHeight * textureFraction
+  );
+
+  renderTarget2 = new THREE.WebGLRenderTarget(
+    window.innerWidth * textureFraction,
+    window.innerHeight * textureFraction
+  );
+
+  uniforms.u_texture.value = texture;
 }
