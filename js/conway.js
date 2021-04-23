@@ -7,12 +7,9 @@ const textureFraction = 1 * window.devicePixelRatio;
 let texture, scene, camera, renderer;
 let fragmentShader, vertexShader, uniforms;
 
+window.onresize = onResize;
 load(); // Will call init() when shaders loaded
 animate();
-
-window.onresize = () => {
-  onResize();
-};
 
 function load() {
   let numFilesLeft = 3;
@@ -146,5 +143,6 @@ function onResize() {
   );
 
   uniforms.u_texture.value = texture;
+  console.log("test");
   uniforms.u_frame.value = 0;
 }
