@@ -66,6 +66,8 @@ void main() {
     }
 
     // Centre circle fade
+    gl_FragColor.z = gl_FragColor.y;
+
     vec2 centre = u_resolution / 2.;
     float centreFactor =  (1. / ((centre.y * centre.y))) *
       (
@@ -77,9 +79,9 @@ void main() {
     centreFactor = min(centreFactor, 1.); // Can't be bigger than 1
     centreFactor = max(centreFactor, 0.); // Can't be smaller than 0
 
-    gl_FragColor.y *= centreFactor;
+    gl_FragColor.z *= centreFactor;
 
   } else {
-    gl_FragColor = vec4(originalColor.y);
+    gl_FragColor = vec4(originalColor.y * originalColor.z);
   }
 }
