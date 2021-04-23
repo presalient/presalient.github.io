@@ -7,3 +7,7 @@ https://codepen.io/asdfmario/pen/MBpVJJ
 
 Was originally just a javascript conway single threaded :(
 https://www.stevenhuyn.com/old/
+
+## TODO
+- Make it not so intense looking
+- Add some orange ones to fight the white
