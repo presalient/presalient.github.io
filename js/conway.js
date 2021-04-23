@@ -23,7 +23,7 @@ function load() {
   }
 
   let textureLoader = new THREE.TextureLoader();
-  texture = textureLoader.load("texture/noise.png", function (data) {
+  texture = textureLoader.load("texture/noise2.png", function (data) {
     texture = data;
     texture.minFilter = THREE.LinearFilter;
     texture.magFilter = THREE.NearestFilter;
