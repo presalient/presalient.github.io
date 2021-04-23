@@ -4,6 +4,6 @@ body {
 }
 
 #container {
-  overflow: hidden;
+  /* overflow: hidden; */
   touch-action: none;
 }

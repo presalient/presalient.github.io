@@ -5,10 +5,12 @@
 const textureFraction = 1 * window.devicePixelRatio;
 
 let texture, scene, camera, renderer;
-let fragmentShader, vertexShader;
+let fragmentShader, vertexShader, uniforms;
 
 load(); // Will call init() when shaders loaded
-animate();
+setTimeout(() => {
+  animate();
+}, 1000);
 
 function load() {
   let numFilesLeft = 3;
@@ -48,15 +50,25 @@ function init() {
 
   scene = new THREE.Scene();
 
+  // (2, 2) size bc normalised device coordinates
   let geometry = new THREE.PlaneBufferGeometry(2, 2);
 
   // Let's render a texture
-  seedTexture = new THREE.WebGLRenderTarget(
+  renderTarget1 = new THREE.WebGLRenderTarget(
     window.innerWidth * textureFraction,
     window.innerHeight * textureFraction
   );
 
-  let uniforms = {
+  // renderTarget1.texture = texture;
+
+  renderTarget2 = new THREE.WebGLRenderTarget(
+    window.innerWidth * textureFraction,
+    window.innerHeight * textureFraction
+  );
+
+  // renderTarget2.texture = texture;
+
+  uniforms = {
     u_texture: {
       type: "t",
       value: texture,
@@ -65,6 +77,8 @@ function init() {
       type: "v2",
       value: new THREE.Vector2(window.innerWidth, window.innerHeight),
     },
+    u_renderpass: { type: "b", value: false },
+    u_frame: { type: "f", value: 0.0 },
   };
 
   let material = new THREE.ShaderMaterial({
@@ -72,6 +86,7 @@ function init() {
     vertexShader: vertexShader,
     fragmentShader: fragmentShader,
   });
+  material.extensions.derivatives = true; // ?
 
   let mesh = new THREE.Mesh(geometry, material);
 
@@ -86,5 +101,19 @@ function init() {
 
 function animate() {
   requestAnimationFrame(animate);
+
+  // Render to target1
+  renderer.setRenderTarget(renderTarget1);
+  renderer.render(scene, camera);
+
+  // Set texture to be target1's texture
+  uniforms.u_texture.value = renderTarget1.texture;
+  uniforms.u_frame.value += 1;
+
+  // Swap buffers
+  [renderTarget1, renderTarget2] = [renderTarget2, renderTarget1];
+
+  // Draw to canvas
+  renderer.setRenderTarget(null);
   renderer.render(scene, camera);
 }
