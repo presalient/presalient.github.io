@@ -8,9 +8,7 @@ let texture, scene, camera, renderer;
 let fragmentShader, vertexShader, uniforms;
 
 load(); // Will call init() when shaders loaded
-setTimeout(() => {
-  animate();
-}, 1000);
+animate();
 
 window.onresize = () => {
   onResize();
