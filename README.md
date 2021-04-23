@@ -2,6 +2,8 @@
 
 Static website with three.js and Bootstrap
 
+GPU accelerated implementation of the late Conway's game of life
+
 ## Heavily Adapted from:
 https://codepen.io/asdfmario/pen/MBpVJJ
 
