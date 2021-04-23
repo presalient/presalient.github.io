@@ -79,7 +79,7 @@ function init() {
     },
     u_resolution: {
       type: "v2",
-      value: new THREE.Vector2(window.innerWidth, window.innerHeight),
+      value: new THREE.Vector2(),
     },
     u_renderpass: { type: "b", value: false },
     u_frame: { type: "f", value: 0.0 },
@@ -100,6 +100,9 @@ function init() {
   renderer.setSize(window.innerWidth, window.innerHeight);
   renderer.setPixelRatio(window.devicePixelRatio);
 
+  uniforms.u_resolution.value.x = renderer.domElement.width;
+  uniforms.u_resolution.value.y = renderer.domElement.height;
+
   container.appendChild(renderer.domElement);
 }
 
@@ -119,7 +122,7 @@ function animate() {
   [renderTarget1, renderTarget2] = [renderTarget2, renderTarget1];
 
   // Draw to canvas
-  uniforms.u_renderpass.value = true;
+  uniforms.u_renderpass.value = false;
   renderer.setRenderTarget(null);
   renderer.render(scene, camera);
 }
@@ -140,5 +143,5 @@ function onResize() {
   );
 
   uniforms.u_texture.value = texture;
-  // uniforms.u_frame.value = 0;
+  uniforms.u_frame.value = 0;
 }

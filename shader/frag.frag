@@ -52,16 +52,34 @@ void main() {
 
     gl_FragColor = newColor;
 
-    // Apply blur effect
+    // We store post processing effects inside the g/y value of the fragColor
+    // x is where the live or dead state is
     if(u_frame > 2.) {
-      gl_FragColor.y = originalColor.y * .988; // gl_FragColor.x; // this introduces a motion fade
-      if(gl_FragColor.y < .15) {
-        gl_FragColor.y  *= .99;
+      // Create blur if pixel has changed in this frame (maybe died)
+      gl_FragColor.y = originalColor.y * .988 + gl_FragColor.x; // this introduces a motion fade
+
+      // the threshold of when to slow down fading the blur
+      if(gl_FragColor.y < .2) {
+        // Fade away the blur even slower
+        gl_FragColor.y  *= .99; 
       }
     }
 
+    // Centre circle fade
+    vec2 centre = u_resolution / 2.;
+    float centreFactor =  (1. / ((centre.y * centre.y))) *
+      (
+        ((gl_FragCoord.x - centre.x - 0.5) * (gl_FragCoord.x - centre.x - 0.5)) +
+        ((gl_FragCoord.y - centre.y - 0.5) * (gl_FragCoord.y - centre.y - 0.5)) -
+        ((u_resolution.x / 4.2) * (u_resolution.y / 4.2))
+      );
+
+    centreFactor = min(centreFactor, 1.); // Can't be bigger than 1
+    centreFactor = max(centreFactor, 0.); // Can't be smaller than 0
+
+    gl_FragColor.y *= centreFactor;
 
   } else {
-    gl_FragColor = originalColor;
+    gl_FragColor = vec4(originalColor.y);
   }
 }
