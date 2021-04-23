@@ -2,7 +2,7 @@
 
 Static website with three.js and Bootstrap
 
-GPU accelerated implementation of the late Conway's game of life
+GPU accelerated implementation of the late [Conway's game of life](https://en.wikipedia.org/wiki/Conway%27s_Game_of_Life)
 
 ## Heavily Adapted from:
 https://codepen.io/asdfmario/pen/MBpVJJ
@@ -17,3 +17,4 @@ https://www.stevenhuyn.com/old/
 - Add some orange ones to fight the white
 - Mouse interaction
 - Use promises to load shader files (?)
+- Store pixel's age and fade based on age to remove still life over time
