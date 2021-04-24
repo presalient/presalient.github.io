@@ -10,13 +10,11 @@ function generateCube() {
   camera.position.z = 1.8;
 
   const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
-  renderer.setSize(
-    250 * window.devicePixelRatio,
-    250 * window.devicePixelRatio
-  );
+  renderer.setSize(window.innerHeight / 4, window.innerHeight / 4);
 
   //   renderer.domElement.position = "aboslute";
   renderer.domElement.display = "inline";
+  renderer.domElement.style.background = "#0c0c0c";
 
   let container = document.getElementById("cube-container");
   container.appendChild(renderer.domElement);
