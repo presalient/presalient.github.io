@@ -91,14 +91,14 @@ function init() {
 
   scene.add(mesh);
 
-  renderer = new THREE.WebGLRenderer();
+  renderer = new THREE.WebGLRenderer({ alpha: true });
   renderer.setSize(window.innerWidth, window.innerHeight);
   renderer.setPixelRatio(window.devicePixelRatio);
 
   // Styling the renderer
   renderer.domElement.style.position = "absolute";
   renderer.domElement.style.zIndex = -1;
-  renderer.domElement.style.background = "dimGray";
+  renderer.domElement.style.background = "#0c0c0c";
 
   uniforms.u_resolution.value.x = renderer.domElement.width;
   uniforms.u_resolution.value.y = renderer.domElement.height;
@@ -143,6 +143,5 @@ function onResize() {
   );
 
   uniforms.u_texture.value = texture;
-  console.log("test");
   uniforms.u_frame.value = 0;
 }

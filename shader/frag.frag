@@ -25,32 +25,31 @@ void main() {
     }
 
     // Getting Colors
-    vec4 newColor;
     float alive = originalColor.x;
+    bool stayedAlive = false;
 
-    // float shadeFactor = max(-0.49, u_frame * -0.001);
+    gl_FragColor = vec4(0., 0., 0., 0.);
 
     if (alive >= 0.5) {
       // Become Dead (red)
       if (neighbours <= 1 || neighbours >= 4) {
-        newColor = vec4(0., 0., 0., 1.);
+        gl_FragColor.x = 0.;
 
       // Stay Alive (white)
       } else {
-        newColor = vec4(1., 1., 1., 1.);
+        gl_FragColor.x = 1.;
+        stayedAlive = true;
       }
     } else {
       // Become Alive (green)
       if (neighbours == 3) {
-        newColor = vec4(1., 1., 1., 1.);
+        gl_FragColor.x = 1.;
       
       // Stay Dead (black)
       } else {
-        newColor = vec4(0., 0., 0., 1.);
+        gl_FragColor.x = 0.;
       }
     }
-
-    gl_FragColor = newColor;
 
     // We store post processing effects inside the g/y value of the fragColor
     // x is where the live or dead state is
@@ -65,23 +64,29 @@ void main() {
       }
     }
 
-    // Centre circle fade
-    gl_FragColor.z = gl_FragColor.y;
+    // Age factor
+    gl_FragColor.w = originalColor.w;
+    if (stayedAlive) {
+      gl_FragColor.w *= 0.99;
+    } else {
+      gl_FragColor.w = 1.;
+    }
 
+    // Centre circle fade factor
     vec2 centre = u_resolution / 2.;
     float centreFactor =  (1. / ((centre.y * centre.y * 4.0))) *
       (
         ((gl_FragCoord.x - centre.x - 0.5) * (gl_FragCoord.x - centre.x - 0.5)) +
         ((gl_FragCoord.y - centre.y - 0.5) * (gl_FragCoord.y - centre.y - 0.5)) -
-        ((u_resolution.x / 4.2) * (u_resolution.y / 4.2))
+        ((u_resolution.x / 5.) * (u_resolution.y / 5.))
       );
 
     centreFactor = min(centreFactor, 1.); // Can't be bigger than 1
     centreFactor = max(centreFactor, 0.); // Can't be smaller than 0
 
-    gl_FragColor.z *= centreFactor;
+    gl_FragColor.z = centreFactor;
 
   } else {
-    gl_FragColor = vec4(originalColor.y * originalColor.z);
+    gl_FragColor = vec4(originalColor.y * originalColor.z * originalColor.w);
   }
 }
