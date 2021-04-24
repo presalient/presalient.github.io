@@ -3,11 +3,18 @@ function generateCube() {
   const camera = new THREE.PerspectiveCamera(60, 1, 0.1, 1000);
 
   const geometry = new THREE.BoxGeometry();
-  const material = new THREE.MeshBasicMaterial({ color: 0xff8000 });
+  const material = new THREE.MeshPhongMaterial({ color: 0xff8000 });
   const cube = new THREE.Mesh(geometry, material);
   scene.add(cube);
 
   camera.position.z = 1.8;
+
+  const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
+  scene.add(ambientLight);
+
+  const directionalLight = new THREE.DirectionalLight(0xffffff, 0.5);
+  directionalLight.position.set(8, 15, 12);
+  scene.add(directionalLight);
 
   const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
   renderer.setSize(
