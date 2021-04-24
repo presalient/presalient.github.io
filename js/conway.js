@@ -58,14 +58,10 @@ function init() {
     window.innerHeight * textureFraction
   );
 
-  // renderTarget1.texture = texture;
-
   renderTarget2 = new THREE.WebGLRenderTarget(
     window.innerWidth * textureFraction,
     window.innerHeight * textureFraction
   );
-
-  // renderTarget2.texture = texture;
 
   uniforms = {
     u_texture: {
