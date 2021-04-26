@@ -131,5 +131,7 @@ function onResize() {
 
 document.addEventListener("pointermove", (e) => {
   uniforms.u_mouse_position.value.x = e.clientX;
+
+  // Gotta do this because gl_FragCoord is (0, 0) in bottom left of screen
   uniforms.u_mouse_position.value.y = -e.clientY + window.innerHeight;
 });
