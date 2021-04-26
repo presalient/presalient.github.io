@@ -2,6 +2,7 @@ uniform sampler2D u_texture;
 uniform bool u_renderpass;
 uniform vec2 u_resolution;
 uniform float u_frame;
+uniform vec2 u_mouse_position;
 varying vec2 vUv;
 
 void main() {
@@ -51,6 +52,11 @@ void main() {
       }
     }
 
+    // Overrwrite computation and make alive if near mouse pointer
+    if (length(gl_FragCoord.xy - u_mouse_position) < 5.) {
+      gl_FragColor.x = 1.;
+    }
+
     // We store post processing effects inside the g/y value of the fragColor
     // x is where the live or dead state is
     if(u_frame > 2.) {
@@ -86,7 +92,6 @@ void main() {
     centreFactor = max(centreFactor, 0.); // Can't be smaller than 0
 
     gl_FragColor.z = centreFactor;
-
   } else {
     gl_FragColor = vec4(originalColor.y * originalColor.z * originalColor.w);
   }

@@ -60,6 +60,7 @@ function init() {
     },
     u_renderpass: { type: "b", value: false },
     u_frame: { type: "f", value: 0.0 },
+    u_mouse_position: { type: "v2", value: new THREE.Vector2() },
   };
 
   let material = new THREE.ShaderMaterial({
@@ -127,3 +128,8 @@ function onResize() {
   uniforms.u_texture.value = texture;
   uniforms.u_frame.value = 0;
 }
+
+document.addEventListener("pointermove", (e) => {
+  uniforms.u_mouse_position.value.x = e.clientX;
+  uniforms.u_mouse_position.value.y = -e.clientY + window.innerHeight;
+});
