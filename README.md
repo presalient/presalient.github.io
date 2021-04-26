@@ -18,6 +18,6 @@ https://www.stevenhuyn.com/old/
 - ~~Make it not so intense looking~~ There's color banding now
 - Add some orange ones to fight the white
 - Mouse interaction
-- Use promises to load shader files (?)
+- ~~Use promises to load shader files (?)~~ asynced
 - ~~Store pixel's age and fade based on age to remove still life over time~~
 - Texture gets overwritten, so resizing doesn't behave like it should: Should just do away with initial seed texture and add noise if u_frames < 2.
