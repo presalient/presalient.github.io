@@ -8,37 +8,23 @@ let texture, scene, camera, renderer;
 let fragmentShader, vertexShader, uniforms;
 
 window.onresize = onResize;
-load(); // Will call init() when shaders loaded
-animate();
 
-function load() {
-  let numFilesLeft = 3;
+main();
 
-  // There's probably a better way to do this with Promises?
-  function checkLoadComplete() {
-    numFilesLeft--;
-    if (numFilesLeft === 0) {
-      init();
-    }
-  }
-
+async function main() {
+  await load();
+  init();
+  animate();
+}
+async function load() {
   let textureLoader = new THREE.TextureLoader();
-  texture = textureLoader.load("texture/noise2.png", function (data) {
-    texture = data;
-    texture.minFilter = THREE.LinearFilter;
-    texture.magFilter = THREE.NearestFilter;
-    checkLoadComplete();
-  });
+  texture = await textureLoader.loadAsync("texture/noise2.png");
+  texture.minFilter = THREE.LinearFilter;
+  texture.magFilter = THREE.NearestFilter;
 
   let fileLoader = new THREE.FileLoader();
-  fileLoader.load("shader/frag.frag", function (data) {
-    fragmentShader = data;
-    checkLoadComplete();
-  });
-  fileLoader.load("shader/vert.vert", function (data) {
-    vertexShader = data;
-    checkLoadComplete();
-  });
+  fragmentShader = await fileLoader.loadAsync("shader/frag.frag");
+  vertexShader = await fileLoader.loadAsync("shader/vert.vert");
 }
 
 function init() {
