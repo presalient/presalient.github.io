@@ -60,6 +60,7 @@ void main() {
       // the threshold of when to slow down fading the blur
       if(gl_FragColor.y < .2) {
         // Fade away the blur even slower
+        // This fails and creates an unintended grey background due to convert from float [0, 1] to 0-255 and back etc
         gl_FragColor.y  *= .99; 
       }
     }
