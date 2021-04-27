@@ -112,10 +112,8 @@ function animate() {
 function onResize() {
   renderer.setSize(window.innerWidth, window.innerHeight);
 
-  uniforms.u_resolution.value.x =
-    renderer.domElement.width * window.devicePixelRatio;
-  uniforms.u_resolution.value.y =
-    renderer.domElement.height * window.devicePixelRatio;
+  uniforms.u_resolution.value.x = renderer.domElement.width;
+  uniforms.u_resolution.value.y = renderer.domElement.height;
 
   renderTarget1 = new THREE.WebGLRenderTarget(
     window.innerWidth * window.devicePixelRatio,
