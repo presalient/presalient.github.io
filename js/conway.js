@@ -38,15 +38,14 @@ function init() {
   // (2, 2) size bc normalised device coordinates
   let geometry = new THREE.PlaneBufferGeometry(2, 2);
 
-  // Let's render a texture
   renderTarget1 = new THREE.WebGLRenderTarget(
-    window.innerWidth * textureFraction,
-    window.innerHeight * textureFraction
+    window.innerWidth * window.devicePixelRatio,
+    window.innerHeight * window.devicePixelRatio
   );
 
   renderTarget2 = new THREE.WebGLRenderTarget(
-    window.innerWidth * textureFraction,
-    window.innerHeight * textureFraction
+    window.innerWidth * window.devicePixelRatio,
+    window.innerHeight * window.devicePixelRatio
   );
 
   uniforms = {
@@ -112,17 +111,20 @@ function animate() {
 
 function onResize() {
   renderer.setSize(window.innerWidth, window.innerHeight);
-  uniforms.u_resolution.value.x = renderer.domElement.width;
-  uniforms.u_resolution.value.y = renderer.domElement.height;
+
+  uniforms.u_resolution.value.x =
+    renderer.domElement.width * window.devicePixelRatio;
+  uniforms.u_resolution.value.y =
+    renderer.domElement.height * window.devicePixelRatio;
 
   renderTarget1 = new THREE.WebGLRenderTarget(
-    window.innerWidth * textureFraction,
-    window.innerHeight * textureFraction
+    window.innerWidth * window.devicePixelRatio,
+    window.innerHeight * window.devicePixelRatio
   );
 
   renderTarget2 = new THREE.WebGLRenderTarget(
-    window.innerWidth * textureFraction,
-    window.innerHeight * textureFraction
+    window.innerWidth * window.devicePixelRatio,
+    window.innerHeight * window.devicePixelRatio
   );
 
   uniforms.u_texture.value = texture;
@@ -130,8 +132,9 @@ function onResize() {
 }
 
 document.addEventListener("pointermove", (e) => {
-  uniforms.u_mouse_position.value.x = e.clientX;
+  uniforms.u_mouse_position.value.x = e.clientX * window.devicePixelRatio;
 
   // Gotta do this because gl_FragCoord is (0, 0) in bottom left of screen
-  uniforms.u_mouse_position.value.y = -e.clientY + window.innerHeight;
+  uniforms.u_mouse_position.value.y =
+    (-e.clientY + window.innerHeight) * window.devicePixelRatio;
 });
