@@ -22,7 +22,6 @@ function generateCube() {
     window.innerHeight / (4 * window.devicePixelRatio)
   );
 
-  //   renderer.domElement.position = "aboslute";
   renderer.domElement.display = "inline";
   renderer.domElement.style.background = "#0c0c0c";
 

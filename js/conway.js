@@ -67,7 +67,6 @@ function init() {
     vertexShader: vertexShader,
     fragmentShader: fragmentShader,
   });
-  material.extensions.derivatives = true; // ?
 
   let mesh = new THREE.Mesh(geometry, material);
 
