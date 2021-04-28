@@ -139,7 +139,6 @@ document.addEventListener("pointermove", (e) => {
 });
 
 document.addEventListener("mousedown", (e) => {
-  console.log("test");
   uniforms.u_click.value = true;
 });
 
