@@ -60,6 +60,7 @@ function init() {
     u_renderpass: { type: "b", value: false },
     u_frame: { type: "f", value: 0.0 },
     u_mouse_position: { type: "v2", value: new THREE.Vector2() },
+    u_click: { type: "b", value: false },
   };
 
   let material = new THREE.ShaderMaterial({
@@ -135,4 +136,13 @@ document.addEventListener("pointermove", (e) => {
   // Gotta do this because gl_FragCoord is (0, 0) in bottom left of screen
   uniforms.u_mouse_position.value.y =
     (-e.clientY + window.innerHeight) * window.devicePixelRatio;
+});
+
+document.addEventListener("mousedown", (e) => {
+  console.log("test");
+  uniforms.u_click.value = true;
+});
+
+document.addEventListener("mouseup", (e) => {
+  uniforms.u_click.value = false;
 });

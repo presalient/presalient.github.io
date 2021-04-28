@@ -3,6 +3,7 @@ uniform bool u_renderpass;
 uniform vec2 u_resolution;
 uniform float u_frame;
 uniform vec2 u_mouse_position;
+uniform bool u_click;
 varying vec2 vUv;
 
 void main() {
@@ -53,7 +54,8 @@ void main() {
     }
 
     // Overrwrite computation and make alive if near mouse pointer
-    if (length(gl_FragCoord.xy - u_mouse_position) < 5.) {
+    float radius = u_click ? 50. : 5.;
+    if (length(gl_FragCoord.xy - u_mouse_position) < radius) {
       gl_FragColor.x = 1.;
     }
 
