@@ -83,11 +83,11 @@ void main() {
 
     // Centre circle fade factor
     vec2 centre = u_resolution / 2.;
-    float centreFactor =  (1. / ((centre.y * centre.y * 4.0))) *
+    float centreFactor =  (1. / ((centre.y * centre.y))) *
       (
         ((gl_FragCoord.x - centre.x - 0.5) * (gl_FragCoord.x - centre.x - 0.5)) +
         ((gl_FragCoord.y - centre.y - 0.5) * (gl_FragCoord.y - centre.y - 0.5)) -
-        ((u_resolution.x / 5.) * (u_resolution.y / 5.))
+        ((u_resolution.y / 4.) * (u_resolution.y / 4.))
       );
 
     centreFactor = min(centreFactor, 1.); // Can't be bigger than 1
