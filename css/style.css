@@ -55,11 +55,11 @@ p {
 }
 
 .social-icon {
-  color: white;
+  fill: white;
 }
 
 .social-icon:hover {
-  color: #ff8000;
+  fill: #ff8000;
 }
 
 .overlay-container {
@@ -94,4 +94,8 @@ p {
 
 a {
   text-decoration: none;
+}
+
+.pointer {
+  cursor: pointer;
 }
