@@ -89,9 +89,7 @@ function init() {
 }
 
 function animate() {
-  requestAnimationFrame(animate);
-
-  // Render to target1
+  // Compute next step
   uniforms.u_renderpass.value = true;
   renderer.setRenderTarget(renderTarget1);
   renderer.render(scene, camera);
@@ -103,10 +101,13 @@ function animate() {
   // Swap buffers
   [renderTarget1, renderTarget2] = [renderTarget2, renderTarget1];
 
-  // Draw to canvas
+  // Draw to canvas the real colors
   uniforms.u_renderpass.value = false;
   renderer.setRenderTarget(null);
   renderer.render(scene, camera);
+
+  // Show to canvas
+  requestAnimationFrame(animate);
 }
 
 function onResize() {
