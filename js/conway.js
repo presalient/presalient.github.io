@@ -89,6 +89,10 @@ function init() {
 }
 
 function animate() {
+  
+  // Show to canvas
+  requestAnimationFrame(animate);
+  
   // Compute next step
   uniforms.u_renderpass.value = true;
   renderer.setRenderTarget(renderTarget1);
@@ -106,8 +110,6 @@ function animate() {
   renderer.setRenderTarget(null);
   renderer.render(scene, camera);
 
-  // Show to canvas
-  requestAnimationFrame(animate);
 }
 
 function onResize() {

@@ -16,21 +16,21 @@ void main() {
 
   float ORANGE = 0.9;
   float WHITE = 1.;
+  float DEAD = 0.;
 
   if (u_renderpass) {
     // Finding Neighbours
     for (int i = -1; i < 2; i++) {
       for (int j = -1; j < 2; j++) {
         if (i != 0 || j != 0) {
-          float neighAlive = texture(u_texture, vUv + (uv_pixel_step * vec2(i, j))).x;
           float neighColor = texture(u_texture, vUv + (uv_pixel_step * vec2(i, j))).w;
 
           // Check if pixel is white
-          if (neighAlive > 0.5) { 
+          if (neighColor > 0.5) { 
             neighbours += 1;
-            if (neighColor == ORANGE) {
+            if (abs(originalColor.x - ORANGE) <= 0.2) {
               orange_count += 1; 
-            } else if (neighColor == WHITE) {
+            } else if (abs(originalColor.x - WHITE) <= 0.2) {
               white_count += 1;
             }
           }
@@ -39,7 +39,7 @@ void main() {
     }
 
     // Getting Colors
-    float alive = originalColor.x;
+    float alive = originalColor.w;
     bool stayedAlive = false;
 
     gl_FragColor = vec4(0., 0., 0., 0.);
@@ -51,13 +51,13 @@ void main() {
 
       // Stay Alive 
       } else {
-        gl_FragColor.x = originalColor.w;
+        gl_FragColor.x = WHITE; 
         stayedAlive = true;
       }
     } else {
       // Become Alive
       if (neighbours == 3) {
-        gl_FragColor.x = orange_count > white_count ? ORANGE : WHITE;
+        gl_FragColor.x = WHITE;
       
       // Stay Dead
       } else {
@@ -95,26 +95,26 @@ void main() {
     // }
 
     // Centre circle fade factor
-    vec2 centre = u_resolution / 2.;
-    float centreFactor =  (1. / ((centre.y * centre.y))) *
-      (
-        ((gl_FragCoord.x - centre.x - 0.5) * (gl_FragCoord.x - centre.x - 0.5)) +
-        ((gl_FragCoord.y - centre.y - 0.5) * (gl_FragCoord.y - centre.y - 0.5)) -
-        ((u_resolution.y / 4.) * (u_resolution.y / 4.))
-      );
+    // vec2 centre = u_resolution / 2.;
+    // float centreFactor =  (1. / ((centre.y * centre.y))) *
+    //   (
+    //     ((gl_FragCoord.x - centre.x - 0.5) * (gl_FragCoord.x - centre.x - 0.5)) +
+    //     ((gl_FragCoord.y - centre.y - 0.5) * (gl_FragCoord.y - centre.y - 0.5)) -
+    //     ((u_resolution.y / 4.) * (u_resolution.y / 4.))
+    //   );
 
-    centreFactor = min(centreFactor, 1.); // Can't be bigger than 1
-    centreFactor = max(centreFactor, 0.); // Can't be smaller than 0
+    // centreFactor = min(centreFactor, 1.); // Can't be bigger than 1
+    // centreFactor = max(centreFactor, 0.); // Can't be smaller than 0
 
-    gl_FragColor.z = centreFactor;
+    // gl_FragColor.z = centreFactor;
   } else {
-    float f = originalColor.z;
+    float f = 0.;
     if (abs(originalColor.x - ORANGE) <= 0.2) {
-      gl_FragColor = vec4(f, 0.5 * f, 0., ORANGE);
+      gl_FragColor = vec4(1., 0.5, 0., ORANGE);
     } else if (abs(originalColor.x - WHITE) <= 0.1) {
-      gl_FragColor = vec4(f, f, f, WHITE);
+      gl_FragColor = vec4(1., 1., 1., WHITE);
     } else {
-      gl_FragColor = vec4(f, f, f, WHITE);
+      gl_FragColor = vec4(0.2, 0.2, 0., DEAD);
     }
   }
 }
