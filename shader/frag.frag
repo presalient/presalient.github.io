@@ -16,7 +16,7 @@ void main() {
 
   float ALIVE_THRESH = 0.6;
   float ORANGE = 0.9;
-  float DEAD_ORANGE = 0.1
+  float DEAD_ORANGE = 0.1;
 
   float WHITE = 0.7;
   float DEAD_WHITE = 0.2;
@@ -52,7 +52,11 @@ void main() {
     if (alive >= ALIVE_THRESH) {
       // Become Dead
       if (neighbours <= 1 || neighbours >= 4) {
-        gl_FragColor.x = 0.;
+        if (abs(originalColor.x - ORANGE) < EPS) {
+          gl_FragColor.x = DEAD_ORANGE;
+        } else if (abs(originalColor.x - WHITE) < EPS) {
+          gl_FragColor.x = DEAD_WHITE;
+        }
 
       // Stay Alive 
       } else {
@@ -73,7 +77,7 @@ void main() {
       
       // Stay Dead
       } else {
-        gl_FragColor.x = 0.;
+        gl_FragColor.x = originalColor.x;
       }
     }
 
@@ -87,8 +91,10 @@ void main() {
     // x is where the live or dead state is
     if(u_frame > 2.) {
       // Create blur if pixel has changed in this frame (maybe died)
-      float aliveness = (gl_FragColor.x == ORANGE || gl_FragColor.x == WHITE) ? 1. : 0.;
+      float aliveness = (gl_FragColor.x >= ALIVE_THRESH) ? 1. : 0.;
       gl_FragColor.y = originalColor.y * .988 + aliveness; // this introduces a motion fade
+
+      gl_FragColor.y = min(gl_FragColor.y, 1.);
 
       // the threshold of when to slow down fading the blur
       if(gl_FragColor.y < .2) {
@@ -121,11 +127,9 @@ void main() {
     gl_FragColor.z = centreFactor;
   } else {
     float f = originalColor.y * originalColor.z * originalColor.z;
-    if (abs(originalColor.x - ORANGE) < EPS) {
+    if (abs(originalColor.x - ORANGE) < EPS || abs(originalColor.x - DEAD_ORANGE) < EPS) {
       gl_FragColor = vec4(1., 0.5, 0., 1.) * f;
-    } else if (abs(originalColor.x - WHITE) < EPS) {
-      gl_FragColor = vec4(1., 1., 1., 1.) * f;
-    } else {
+    } else if (abs(originalColor.x - WHITE) < EPS || abs(originalColor.x - DEAD_WHITE) < EPS) {
       gl_FragColor = vec4(1., 1., 1., 1.) * f;
     }
   }
