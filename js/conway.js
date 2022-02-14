@@ -145,6 +145,23 @@ document.addEventListener("mousedown", (e) => {
   uniforms.u_click.value = true;
 });
 
+document.addEventListener("touchstart", (e) => {
+  uniforms.u_click.value = true;
+})
+
+document.addEventListener("touchmove", (e) => {
+  // TODO: What happens if there's been multiple touch points since last event?
+  uniforms.u_mouse_position.value.x = e.changedTouches[0].pageX * window.devicePixelRatio;
+
+  // Gotta do this because gl_FragCoord is (0, 0) in bottom left of screen
+  uniforms.u_mouse_position.value.y =
+    (-e.changedTouches[0].pageY + window.innerHeight) * window.devicePixelRatio;
+})
+
+document.addEventListener("touchend", (e) => {
+  uniforms.u_click.value = false;
+})
+
 document.addEventListener("mouseup", (e) => {
   uniforms.u_click.value = false;
 });
