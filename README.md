@@ -16,7 +16,7 @@ https://www.stevenhuyn.com/old/
 ## TODO
 
 - ~~Make it not so intense looking~~ There's color banding now
-- Add some orange ones to fight the white
+- ~~Add some orange ones to fight the white~~
 - ~~Mouse interaction~~
 - ~~Use promises to load shader files (?)~~ asynced
 - ~~Store pixel's age and fade based on age to remove still life over time~~
