@@ -1,4 +1,4 @@
-# My Personal [Website](https://presalient.github.io)
+# My Personal [Website](https://stevenhuyn.github.io)
 
 GPU accelerated implementation of the late [Conway's game of life](https://en.wikipedia.org/wiki/Conway%27s_Game_of_Life) using three.js and bootstrap for the rest of the website.
 
