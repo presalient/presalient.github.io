@@ -1,5 +1,5 @@
 {
-  "name": "presalient.github.io",
+  "name": "stevenhuyn.github.io",
   "version": "1.0.0",
   "description": "GPU accelerated implementation of the late [Conway's game of life](https://en.wikipedia.org/wiki/Conway%27s_Game_of_Life) using three.js and bootstrap for the rest of the website.",
   "main": "index.html",
@@ -8,15 +8,15 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/presalient/presalient.github.io.git"
+    "url": "git+https://github.com/stevenhuyn/stevenhuyn.github.io.git"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/presalient/presalient.github.io/issues"
+    "url": "https://github.com/stevenhuyn/stevenhuyn.github.io/issues"
   },
-  "homepage": "https://github.com/presalient/presalient.github.io#readme",
+  "homepage": "https://github.com/stevenhuyn/stevenhuyn.github.io#readme",
   "devDependencies": {
     "http-server": "^14.1.0"
   },
